@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="todoParent">
+    <h1> To do List</h1>
+    <div> 
+        <input type="text">
+        <button onclick="addTodo()">Add to do</button>
+    </div>
+    <div id="todo-1">
+        <span>1.go to gym</span>
+        <button onclick="deleteTodo(1)">Delete</button>
+    </div>
+    <div id="todo-2">
+        <span>2.go to study</span>
+        <button onclick="deleteTodo(2)">Delete</button>
+    </div>
+</div>
+    <script>
+        function addTodo() {
+    const inputEl = document.querySelector("input");
+    const value = inputEl.value;
+
+    // Create span element and set its content to the input value
+    const spanEl = document.createElement("span");
+    spanEl.innerHTML = value;
+
+    // Create button element and set its text to "Delete"
+    const buttonEl = document.createElement("button");
+    buttonEl.setAttribute("onClick","del")
+    buttonEl.innerHTML = "Delete";
+
+    // Create a div element and append the span and button to it
+    const divEl = document.createElement("div");
+    divEl.appendChild(spanEl);
+    divEl.appendChild(buttonEl);
+
+    // Append the div to the body (or any other container you wish)
+    document.querySelector("body").appendChild(divEl);
+}
+   function deleteTodo(i){
+    const element=document.getElementById(`todo-${i}`);
+    document.getElementById("todoParent").removeChild(element);
+
+   }
+
+    </script>
+</body>
+</html>

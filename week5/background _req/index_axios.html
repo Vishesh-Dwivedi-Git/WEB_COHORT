@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    Linkeldin
+    <button onclick="getRecentPost" ></button>
+    <div id="posts"></div>
+</body>
+<script>
+    //background request like linkedin, insta , loading 
+    //asyn await is just syntactical sugar for .then
+    //using axios is more cleaner way because than fetch to get the api because automatically convert to json and u can add .get 
+    async function getRecentPost() {
+        const response=await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+        document.getElementById("posts").innerHTML=data.body;
+    }
+    getRecentPost();
+    
+</script>
+</html>
