@@ -3,22 +3,35 @@ const app=express();
 const jwt=require("jsonwebtoken");
 const JWT_SECRET="iamVishesh";
 
-app.use(express.json());
-const users=[];
+app.use(express.json()); //middleware extract json from req 
+const users=[]; //in memory
 
-function generateToken() {
-    let options = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
-    let token = "";
-    for (let i = 0; i < 32; i++) {
-        // use a simple function here
-        token += options[Math.floor(Math.random() * options.length)];
+async function auth(req, res, next) {
+    const token = req.headers.token;
+    if(token) {
+        await jwt.verify(token, JWT_SECRET, (err, decoded) => {
+            if (err) {
+                res.status(401).send({
+                    message: "Unauthorized"
+                })
+            } else {
+                req.user = decoded;
+                next();
+            }
+        })
+    } else {
+        res.status(401).send({
+            message: "Unauthorized"
+        })
     }
-    return token;
 }
 
+function logger(req,res,next){
+    console.log(req.method +"req came");
+    next();
+}
 
-app.post("/signUp",(req,res)=>{
+app.post("/signUp",logger,(req,res)=>{
     const username=req.body.username;
     const password=req.body.password;
 
@@ -30,27 +43,26 @@ app.post("/signUp",(req,res)=>{
         return;
     }
     else{
-
     users.push({
         username:username,
         password:password
     });
     console.log(users);
-    res.send({
+    res.json({
         message:"successful sign up"
     })
 }
 });
 
-app.post("/signIn",(req,res)=>{
+app.post("/signIn",logger,(req,res)=>{
     const username=req.body.username;
     const password=req.body.password;
 
     const foundUser=users.find(u=>(u.username===username && u.password===password)); //map and filter can use
-    console.log(foundUser);
     if(foundUser){
-        const token=generateToken();
-        foundUser.token=token;
+        const token=jwt.sign({
+            username
+        },JWT_SECRET);
         res.json({
             token:token
         })
@@ -66,28 +78,16 @@ app.post("/signIn",(req,res)=>{
 
 });
 
-//creating a authenticated end point
-app.get("/me",(req,res)=>{
-    const token=req.headers.token; //jwt
-    //const decodedinformation=jwt.verify(token,JWT_SECRET); //converting jwt to username {username:"vishesh@gmail.com"}
-    //const username=decodedinformation.username;
-    const foundUser=users.find(u=>u.token===token); //hitting the database for getting the html css 
-    if(foundUser){
-        res.json({
-            "username":foundUser.username,
-            "password":foundUser.password
-
-        })
-    }
-    else{
-        res.status(403).send({
-            message:"Invalid tokens"
-        })
-    }
-
+app.get("/",(req,res)=>{
+    res.sendFile(__dirname +"/public/index.html")   //no cors issue pushing html file from backend
 })
 
-console.log(users);
+//creating a authenticated end point 
+app.get("/me",auth,(req,res)=>{ 
+    const user=req.user;
+    res.send({username: user.username,
+        password: user.password
+    });
+    })
 
-
-app.listen(3000);
+app.listen(3000,console.log("server connected"));

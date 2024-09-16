@@ -1,12 +1,14 @@
 const express=require("express");
 const app=express();
-import { UserModel,TodoModel } from "./db";
+const { UserModel,TodoModel } =require("./db");
 const jwt=require("jsonwebtoken");
 const mongoose=require("mongoose");
+const bcrypt=require("bcrypt");
+const {z} =require("zod");
 const JWT_SECRET="Iamvishesh";
 app.use(express.json());
 
-await mongoose.connect("");
+mongoose.connect("mongodb+srv://23bcs135:vishesh1234@cluster0.k7wxd.mongodb.net/todo-app-database");
 function auth(req,res,next){
     const token=req.headers.token;
     const  decodedData=jwt.verify(token,JWT_SECRET);
@@ -23,18 +25,32 @@ function auth(req,res,next){
     }
 }
 app.post("/signUp",async function(req,res){
+    //input validation -> Zod
+    const requiredBody=z.object({
+        email:z.string().min(3).max(100).email(),
+        name:z.string().min(3).max(100),
+        password:z.string().min(3).max(30)
+    })
+    const parsedDataWithSuccess=requiredBody.safeParse(req.body);
+    if(!parsedDataWithSuccess.success){
+        res.json({
+            message:"Incorrect format",
+            error:parsedDataWithSuccess.error
+        })
+        return
+    }
     const email=req.body.email;
     const password=req.body.password;
     const name=req.body.name;
+    const hashedPassword= await bcrypt.hash(password,5);
 
     await UserModel.create({
         email:email,
-        password:password,
+        password:hashedPassword,
         name:name
     })
-
     res.json({
-        message:"You are logged in"
+        message:"You are signed In"
     })
 
 })
