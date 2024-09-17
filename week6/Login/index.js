@@ -8,21 +8,16 @@ const users=[]; //in memory
 
 async function auth(req, res, next) {
     const token = req.headers.token;
-    if(token) {
-        await jwt.verify(token, JWT_SECRET, (err, decoded) => {
-            if (err) {
-                res.status(401).send({
-                    message: "Unauthorized"
-                })
-            } else {
-                req.user = decoded;
-                next();
-            }
-        })
+    if (token) {
+        try {
+            const decoded = jwt.verify(token, JWT_SECRET);
+            req.user = decoded;
+            next();
+        } catch (err) {
+            res.status(401).send({ message: "Unauthorized" });
+        }
     } else {
-        res.status(401).send({
-            message: "Unauthorized"
-        })
+        res.status(401).send({ message: "Unauthorized" });
     }
 }
 
@@ -85,8 +80,7 @@ app.get("/",(req,res)=>{
 //creating a authenticated end point 
 app.get("/me",auth,(req,res)=>{ 
     const user=req.user;
-    res.send({username: user.username,
-        password: user.password
+    res.send({username: user.username
     });
     })
 

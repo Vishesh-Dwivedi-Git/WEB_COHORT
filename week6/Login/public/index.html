@@ -23,19 +23,31 @@
             password:password
         });
         localStorage.setItem("token",response.data.token);
-        alert("You are signed up");
+        alert("You are signed In");
     }
     async function getUserinfo() {
-       const response =await axios.get("http://localhost:3000/me",{
-            header:{
-                token:localStorage.getItem("token")
+    const token = localStorage.getItem("token");
+    if (token) {
+        const response = await axios.get("http://localhost:3000/me", {
+            headers: {
+                token: token
             }
-        })
-        document.getElementById("information").innerHTML="Username: " + response.data.username + "Password: " + response.data.password
-
+        });
+        document.getElementById("information").innerHTML = "Username: " + response.data.username;
+    } else {
+        alert("No token found, please sign in.");
     }
-    getUserinfo();
+}
 
+    getUserinfo();
+    
+    function Logout() {
+        localStorage.removeItem("token"); // Remove the token from localStorage
+        document.getElementById("information").innerHTML = "You are logged out."; // Clear the user information
+        alert("You are logged out");
+    }
+
+    
 </script>
 <body>
 <div>
