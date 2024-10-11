@@ -10,8 +10,13 @@ const User = new Schema({
 
 const Todo = new Schema({
     title: String,
-    done: Boolean,
     userId: ObjectId,
+    todos: [
+        {
+            title: String,
+            done: Boolean
+        }
+    ],
 });
 
 const UserModel = mongoose.model("users", User); // "users" is the collection name

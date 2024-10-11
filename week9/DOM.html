@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+
+    <script>
+   function onButtonClick(){
+      const val=document.getElementById("counter").innerHTML;
+      const count=val.split(" ")[1];
+      const IntC=parseInt(count)+1;
+      console.log(IntC);
+      document.getElementById("counter").innerHTML="Counter " + IntC;
+   }
+
+    </script>
+
+    <body>
+        <button id="counter" onClick={onButtonClick()} >Counter 1</button>
+    </body>
+</html>

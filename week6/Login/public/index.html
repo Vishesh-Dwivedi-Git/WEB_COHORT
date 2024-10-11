@@ -26,6 +26,7 @@
         alert("You are signed In");
     }
     async function getUserinfo() {
+    console.log("inside info user ");
     const token = localStorage.getItem("token");
     if (token) {
         const response = await axios.get("http://localhost:3000/me", {
@@ -39,7 +40,6 @@
     }
 }
 
-    getUserinfo();
     
     function Logout() {
         localStorage.removeItem("token"); // Remove the token from localStorage
@@ -64,6 +64,7 @@
     <button onclick="signIn()">Submit</button>
 </div>
 <div>
+    <button onclick="getUserinfo()">Get User Info</button>
     User Information:
     <div id="information"></div>
 </div>
