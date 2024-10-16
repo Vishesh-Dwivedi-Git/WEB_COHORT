@@ -1,28 +1,31 @@
-import { useState,createContext, useContext } from 'react'
+import { useState,createContext, useContext, Children } from 'react'
 import './App.css'
 
 //making a provider component
-
-const BulbProvider({children}){
-  const []
-}
-
-
-
-
 const BulbContext=createContext();
 
-function App() {
+function BulbProvider({children}){  //context api doesnt reduce re renders so doesnt optimize , therefore use Library like recoil,redux 
   const [bulbOn,setbulbOn]=useState(true);
+  return <BulbContext.Provider value={{bulbOn:bulbOn,setbulbOn:setbulbOn}}>
+    {children}
+  </BulbContext.Provider>
+}
+
+function App() {
+  // const [bulbOn,setbulbOn]=useState(true);
   return (
     <>
-    <BulbContext.Provider value={{
+     <BulbProvider>
+      <Light/>
+     </BulbProvider>
+
+    {/* <BulbContext.Provider value={{
        bulbOn:bulbOn,
        setbulbOn:setbulbOn
     }
     }>
     <Light/>
-    </BulbContext.Provider>
+    </BulbContext.Provider> */}
     </>
   )
 }
