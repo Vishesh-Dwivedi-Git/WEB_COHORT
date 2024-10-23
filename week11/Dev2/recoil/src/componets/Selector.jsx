@@ -1,18 +1,12 @@
-import {atom , selector} from 'recoil'
+import { selector } from "recoil";
+import counter from "./atom";
 
-export const counterAtom=atom({
-    default:0,
-    key:"counter"
-})
-
-export const evenSeletor=selector({
-    key:"isEvenSelector",
-    get:function({get}) {
-        const Currentcount=get(counterAtom);
-        const isEven=(Currentcount%2==0);
-        return isEven;
+const  oddEv=selector({
+    key:"isEven",
+    get:({get})=>{
+        const count=get(counter);
+        return count%2===0;
     }
-})
+});
 
-
-
+export default oddEv;
