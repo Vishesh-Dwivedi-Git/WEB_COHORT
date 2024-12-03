@@ -2,10 +2,10 @@
 let x = 1;
 x = "vishesh";
 console.log(x);
-function greet(firstName) {
+function greet1(firstName) {
     console.log("hello" + firstName);
 }
-greet("vishesh");
+greet1("vishesh");
 function sum(n1, n2) {
     return n1 + n2;
 }
