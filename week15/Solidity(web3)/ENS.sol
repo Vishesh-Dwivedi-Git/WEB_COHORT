@@ -15,6 +15,5 @@ contract ENS {
      function get() public view returns (address) {
         return msg.sender;
     }
-    
 }
 
