@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import './App.css'
 
 function App() {
-  const ws=new WebSocket("ws://localhost:8081")
+  const ws=new WebSocket("ws://localhost:8081");
   useEffect(() => {
      ws.onmessage=(event)=>{  
        alert(event.data);
