@@ -33,6 +33,7 @@ const Chat= () => {
     
     
     const handleRoom=()=>{
+        console.log("Sending Room ");
         if(ws.current){
         ws.current.send(JSON.stringify({type:"join",room:room}));
         alert("Entered the Room"+room);
@@ -40,6 +41,7 @@ const Chat= () => {
     }
 
     const handleMessage=()=>{
+        console.log("Sending messages")
         if(ws.current && inputMessage){
         ws.current.send(JSON.stringify({type:"chat",message:inputMessage}));
        console.log("Sent:",inputMessage);
