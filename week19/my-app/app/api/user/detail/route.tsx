@@ -2,11 +2,13 @@ import { NextResponse,NextRequest } from "next/server";
 
 
 export function GET(){
+    console.log("GET method called in user detail route");
     return NextResponse.json({name:"kirat",email:"abc@gmail.com"});
 }
 
-export function POST(req:NextRequest){
+export async function POST(req:NextRequest){
 
-    const {name,email}=req.body;
+    const { username, password } = await req.json();
+    console.log(`username: ${username} password: ${password}`);
     return NextResponse.json({"message":"signIn"});
 }

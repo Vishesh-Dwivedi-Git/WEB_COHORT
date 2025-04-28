@@ -8,7 +8,7 @@ async function getUserDetail(): Promise<any> {
 }
 
 export default async function Home() {
-  const data=await getUserDetail();
+  const data=await getUserDetail(); 
    
   return (
 
