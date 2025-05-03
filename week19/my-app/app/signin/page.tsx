@@ -10,11 +10,11 @@ export default  function signIn(){
     return (
         <div className="flex flex-col items-center justify-center p-5 min-h-screen"> 
             <h1> Please Sign in here !</h1>
-            <input type="text" placeholder="Enter the Username" onChange={(e)=>{
+            <input type="text" placeholder="Enter the Username" value={username} className='text-black' onChange={(e)=>{
                 setUsername(e.target.value); 
             }}/>
 
-            <input type="text" placeholder="Enter the Password"  onChange={(e)=>{
+            <input type="text" placeholder="Enter the Password"  className='text-black' value={password } onChange={(e)=>{
                 setPassword(e.target.value); 
             }}/>   
             //above method of changing react state and storing is not AT all fine 
@@ -31,7 +31,7 @@ export default  function signIn(){
                             password 
                         })
                     })
-                    router.push('/app/signup');
+                    router.push('/signup');
 
                 }
 
