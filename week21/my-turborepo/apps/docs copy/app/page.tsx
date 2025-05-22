@@ -33,9 +33,8 @@ export default function Home() {
         />
         <ol>
           <li>
-            Get started by editing <code>apps/web/app/page.tsx</code>
+            Get started by editing <code>apps/docs/app/page.tsx</code>
           </li>
-          <li> <h1>Vishesh Dwivedi @SWE or SDE at Google  </h1></li>
           <li>Save and see your changes instantly.</li>
         </ol>
 
@@ -64,8 +63,8 @@ export default function Home() {
             Read our docs
           </a>
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert Heyy hi from Vishesh 
+        <Button appName="docs" className={styles.secondary}>
+          Open alert
         </Button>
       </main>
       <footer className={styles.footer}>
